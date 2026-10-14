@@ -18,13 +18,12 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
-        cache: gradle
 
-    - name: Otorgar permisos al compilador
-      run: chmod +x gradlew
+    - name: Configurar Gradle Manualmente
+      uses: gradle/actions/setup-gradle@v4
 
     - name: Compilar APK de la Calculadora
-      run: ./gradlew assembleDebug
+      run: gradle assembleDebug
 
     - name: Buscar y Subir Archivo APK
       uses: actions/upload-artifact@v4
