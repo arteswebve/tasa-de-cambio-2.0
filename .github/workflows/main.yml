@@ -1,0 +1,33 @@
+name: Generar APK Automatizado
+
+on:
+  push:
+    branches: [ main ] # Cambia a "master" si tu rama principal de GitHub se llama así
+  workflow_dispatch: # Te permite activar la compilación manualmente en cualquier momento
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el código fuente
+      uses: actions/checkout@v4
+
+    - name: Configurar Java de Android
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: gradle
+
+    - name: Otorgar permisos de ejecución
+      run: chmod +x gradlew
+
+    - name: Compilar APK (Modo Prueba)
+      run: ./gradlew assembleDebug
+
+    - name: Subir Archivo APK resultante
+      uses: actions/upload-artifact@v4
+      with:
+        name: Calculadora-TasaCambio-APK
+        path: app/build/outputs/apk/debug/*.apk
