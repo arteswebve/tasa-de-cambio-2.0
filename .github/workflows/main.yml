@@ -2,8 +2,8 @@ name: Generar APK Automatizado
 
 on:
   push:
-    branches: [ main ] # Cambia a "master" si tu rama principal de GitHub se llama así
-  workflow_dispatch: # Te permite activar la compilación manualmente en cualquier momento
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,14 +20,14 @@ jobs:
         java-version: '17'
         cache: gradle
 
-    - name: Otorgar permisos de ejecución
+    - name: Otorgar permisos al compilador
       run: chmod +x gradlew
 
-    - name: Compilar APK (Modo Prueba)
+    - name: Compilar APK de la Calculadora
       run: ./gradlew assembleDebug
 
-    - name: Subir Archivo APK resultante
+    - name: Buscar y Subir Archivo APK
       uses: actions/upload-artifact@v4
       with:
         name: Calculadora-TasaCambio-APK
-        path: app/build/outputs/apk/debug/*.apk
+        path: "**/build/outputs/apk/debug/*.apk"
